@@ -6,6 +6,7 @@ import { institutionModel } from "./institutionModel";
 const institutions = new Elysia({ prefix: "/institutions" })
     .use(institutionModel)
     .use(institutionService)
+    .get("/", ({ read }) => read)
     .post(
         "/create",
         async ({ create, body }) => {
