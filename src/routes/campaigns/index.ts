@@ -6,6 +6,7 @@ import { campaignModel } from "./campaignModel";
 const campaigns = new Elysia({ prefix: "/campaigns" })
     .use(campaignModel)
     .use(campaignService)
+    .get("/", ({ read }) => read)
     .post(
         "/create",
         async ({ create, body }) => {
