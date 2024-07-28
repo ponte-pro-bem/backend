@@ -5,11 +5,17 @@
   "scripts": {
     "dev": "bun run --watch ./src/index.ts"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "devDependencies": {
-    "bun-types": "latest"
+    "@types/node": "^22.0.0",
+    "bun-types": "latest",
+    "tsx": "^4.16.2",
+    "ts-node": "^10.9.2"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0"
+    "typescript": "^5.5.4"
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",
