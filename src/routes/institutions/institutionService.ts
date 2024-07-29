@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 import { store } from "../../../libs/store";
 import { CreateInstitutionInput } from "../../types";
-import { createInstitution } from "../../crud/institution";
+import { createInstitution, getInstitutions } from "../../crud/institution";
 
 export const institutionService = new Elysia({ name: "institutionService" })
     .use(store)
@@ -11,4 +11,5 @@ export const institutionService = new Elysia({ name: "institutionService" })
             store.institutions.push(institution);
             return institution;
         },
+        read: () => getInstitutions(),
     }));

@@ -1,35 +1,46 @@
-import { afterAll, afterEach, beforeAll } from "bun:test";
-import { prisma, prismaCleanup } from "../libs/prisma";
+import { afterAll, beforeAll } from "bun:test";
+import { prismaCleanup } from "../libs/prisma";
 
 import { NODE_ENV } from "../libs/constants";
 
-export const userData =  {
-    name: "name",
-    password: "pwd",
-    isAdmin: false
-}
+export const userData = {
+  name: "Nome do usuário",
+  password: "123456",
+  isAdmin: false,
+};
 
 export const institutionData = {
-    name: "institution"
-}
+  name: "Nome da instituicao",
+  description: "Descrição da instituição",
+  images: [],
+  pixQRCodeRaw: "00020126580014b....",
+};
 
 export const campaignData = {
-    name: "campaign"
-}
+  name: "Campanha",
+  description: "Descrição da campanha.",
+  images: [],
+  pixQRCodeRaw: "00020126580014b....",
+  startDate: '12/12/2024',
+  endDate: '12/12/2025',
+};
 
-var t_expectedInstitutionId = ""
-export const setExpectedInstitutionId = (id: string) => {t_expectedInstitutionId=id}
-export const getExpectedInstitutionId = () => {return t_expectedInstitutionId}
+var t_expectedInstitutionId = "";
+export const setExpectedInstitutionId = (id: string) => {
+  t_expectedInstitutionId = id;
+};
+export const getExpectedInstitutionId = () => {
+  return t_expectedInstitutionId;
+};
 
 beforeAll(async () => {
-    if (NODE_ENV == "production")
-        throw "Running tests in production! Aborting.";
+  if (NODE_ENV == "production") throw "Running tests in production! Aborting.";
 
-    console.log("Reseting development database before tests...");
-    await prismaCleanup();
+  console.log("Reseting development database before tests...");
+  await prismaCleanup();
 });
 
 afterAll(async () => {
-    console.log("Cleaning up development database...");
-    await prismaCleanup();
+  console.log("Cleaning up development database...");
+  await prismaCleanup();
 });

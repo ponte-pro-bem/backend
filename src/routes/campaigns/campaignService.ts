@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 import { store } from "../../../libs/store";
 import { CreateCampaignInput } from "../../types";
-import { createCampaign } from "../../crud/campaign";
+import { createCampaign, getCampaigns } from "../../crud/campaign";
 
 export const campaignService = new Elysia({ name: "campaignService" })
     .use(store)
@@ -11,4 +11,5 @@ export const campaignService = new Elysia({ name: "campaignService" })
             store.campaigns.push(campaign);
             return campaign;
         },
+        read: () => getCampaigns(),
     }));

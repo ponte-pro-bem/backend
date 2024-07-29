@@ -6,11 +6,10 @@ import { userModel } from "./userModel";
 const users = new Elysia({ prefix: "/users" })
     .use(userModel)
     .use(userService)
+    .get("/",  ({ read }) => read )
     .post(
         "/create",
-        async ({ create, body }) => {
-            return await create(body);
-        },
+        ({ create, body }) => create(body),
         { body: "createUserSchema" }
     );
 

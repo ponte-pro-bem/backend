@@ -8,8 +8,6 @@ import { campaignData, getExpectedInstitutionId, institutionData, setExpectedIns
 import logger from "../libs/logger";
 
 describe("Elysia", () => {
-    let testUserId: string;
-
     test("Health check", async () => {
         const response = await app
             .handle(new Request(APP_URL))
@@ -76,7 +74,7 @@ describe("Elysia", () => {
                         headers: {
                             "Content-Type": "application/json",
                         },
-                        body: JSON.stringify({ name: campaignData.name, institutionId: expectedInstitutionId }),
+                        body: JSON.stringify({ ...campaignData, institutionId: expectedInstitutionId }),
                     })
                 )
                 .then(async (res) => res.json());

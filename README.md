@@ -24,4 +24,5 @@ touch .env // Needed for testing and deployment.
 bun install
 bunx prisma migrate dev
 bun test
+bunx prisma db seed
 ```
