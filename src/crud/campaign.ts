@@ -4,7 +4,11 @@ import { CreateCampaignInput } from "../types";
 import { CustomError } from "./errors";
 
 export const getCampaigns = async () => {
-    return await prisma.campaign.findMany();
+    return await prisma.campaign.findMany({
+        orderBy: {
+            createdAt: 'desc'
+        }
+    });
 };
 
 export const createCampaign = async (createCampaignInput: CreateCampaignInput) => {
@@ -18,6 +22,8 @@ export const createCampaign = async (createCampaignInput: CreateCampaignInput) =
                 description: createCampaignInput.description,
                 images: createCampaignInput.images,
                 pixQRCodeRaw: createCampaignInput.pixQRCodeRaw,
+                startDate: createCampaignInput.startDate,
+                endDate: createCampaignInput.endDate,
             }
         });
     

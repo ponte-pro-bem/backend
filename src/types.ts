@@ -15,6 +15,8 @@ export type CreateCampaignInput = {
     name: string,
     images: string[]
     description: string,
+    startDate: string,
+    endDate: string,
     pixQRCodeRaw: string,
     institutionId: string
 }

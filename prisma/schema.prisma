@@ -15,6 +15,7 @@ model User {
   name String @unique
   password String
   isAdmin Boolean
+  createdAt DateTime  @default(now())
 }
 
 model Institution {
@@ -24,6 +25,7 @@ model Institution {
   description String
   campaigns Campaign[]
   pixQRCodeRaw String
+  createdAt DateTime  @default(now())
 }
 
 model Campaign {
@@ -32,7 +34,9 @@ model Campaign {
   images String[]
   description String
   pixQRCodeRaw String
+  startDate String
+  endDate String
   institution Institution @relation(fields: [institutionId], references: [id])
-  
   institutionId String
+  createdAt DateTime  @default(now())
 }

@@ -18,6 +18,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
+    "@elysiajs/cors": "0.7.2",
     "@prisma/client": "^5.4.2",
     "elysia": "^0.7.21",
     "prisma": "^5.4.2",

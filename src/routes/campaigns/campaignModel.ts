@@ -7,5 +7,7 @@ export const campaignModel = new Elysia().model({
         description: t.String(),
         images: t.Array(t.String()),
         pixQRCodeRaw: t.String(),
+        startDate: t.String(),
+        endDate: t.String(),
     }),
 });

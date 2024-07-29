@@ -21,6 +21,8 @@ export const campaignData = {
   description: "Descrição da campanha.",
   images: [],
   pixQRCodeRaw: "00020126580014b....",
+  startDate: '12/12/2024',
+  endDate: '12/12/2025',
 };
 
 var t_expectedInstitutionId = "";
