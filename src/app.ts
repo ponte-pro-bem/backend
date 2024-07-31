@@ -5,8 +5,8 @@ import institutions from "./routes/institutions";
 import campaigns from "./routes/campaigns";
 import cors from "@elysiajs/cors";
 
-const app: Elysia = new Elysia()
-.onRequest(({ request }) => {
+const app = new Elysia()
+  .onRequest(({ request }) => {
     logger.debug({
       method: request.method,
       url: request.url,

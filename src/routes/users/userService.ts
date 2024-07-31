@@ -6,7 +6,7 @@ import { CustomError } from "../../crud/errors";
 
 export const userService = new Elysia({ name: "userService" })
     .use(store)
-    .derive(({ store, set }) => ({
+    .derive({ as: "global" }, ({ store, set }) => ({
         create: async (data: CreateUserInput) => {
             
             const nameIsAlreadyTaken = await getUserByName(data.name)

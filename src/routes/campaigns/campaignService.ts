@@ -5,7 +5,7 @@ import { createCampaign, getCampaigns } from "../../crud/campaign";
 
 export const campaignService = new Elysia({ name: "campaignService" })
     .use(store)
-    .derive(({ store }) => ({
+    .derive({ as: "global" }, ({ store }) => ({
         create: async (createCampaignData: CreateCampaignInput) => {
             const campaign = await createCampaign(createCampaignData);
             store.campaigns.push(campaign);
