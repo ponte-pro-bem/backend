@@ -9,9 +9,32 @@ const users = new Elysia({ prefix: "/users" })
     .use(userService)
     .get("/",  (read) => read )
     .post(
-        "/create",
-        ({ create, body }) => create(body),
-        { body: "createUserSchema" }
+        "/signup",
+        async ({ signup, body }) => signup(body),
+        { body: "signupSchema" }
+    )
+    .post(
+        "/login",
+        async ({ set, login, body, cookie: { accessToken, refreshToken } }) => {
+            const { access, refresh } = await login(body);
+            
+            accessToken.set({
+                value: access,
+                httpOnly: true,
+                path: "/"
+            });
+            
+            refreshToken.set({
+                value: refresh,
+                httpOnly: true,
+                path: "/",
+                maxAge: 60 * 86400
+            })
+
+            set.status = 200;
+            return access;
+        },
+        { body: "loginSchema" }
     );
 
 export default users;
