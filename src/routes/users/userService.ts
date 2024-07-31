@@ -31,7 +31,11 @@ export const userService = new Elysia({ name: "userService" })
             
             const { hash, salt } = await hashPassword(password);
 
-            const user = await createUser({ ...data, hash, salt });
+            const user = await createUser({ 
+                name: data.name,
+                isAdmin: data.isAdmin,
+                hash, salt
+             });
             store.users.push(user);
 
             //                     Seconds since epoch + 60 days

@@ -4,9 +4,9 @@ import { prismaCleanup } from "../libs/prisma";
 import { NODE_ENV } from "../libs/constants";
 
 export const userData = {
-  name: "Nome do usuário",
-  password: "123456",
-  isAdmin: false,
+  name: "João Test",
+  password: "123456789abcdef",
+  isAdmin: true,
 };
 
 export const institutionData = {
@@ -32,6 +32,15 @@ export const setExpectedInstitutionId = (id: string) => {
 export const getExpectedInstitutionId = () => {
   return t_expectedInstitutionId;
 };
+
+var t_expectedAccessToken = "";
+export const setExpectedAccessToken = (token: string) => {
+  t_expectedAccessToken = token;
+}
+export const getExpectedAccessToken = () => {
+  return t_expectedAccessToken;
+}
+
 
 beforeAll(async () => {
   if (NODE_ENV == "production") throw "Running tests in production! Aborting.";

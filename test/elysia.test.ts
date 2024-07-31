@@ -4,7 +4,7 @@ import { APP_URL } from "../libs/constants";
 import app from "../src/app";
 
 import { prismaCleanup } from "../libs/prisma";
-import { campaignData, getExpectedInstitutionId, institutionData, setExpectedInstitutionId, userData } from "./setup";
+import { campaignData, getExpectedAccessToken, getExpectedInstitutionId, institutionData, setExpectedAccessToken, setExpectedInstitutionId, userData } from "./setup";
 import logger from "../libs/logger";
 
 describe("Elysia", () => {
@@ -18,10 +18,10 @@ describe("Elysia", () => {
 
     describe("/users", async () => {
         const url = APP_URL + "/users";
-        test("/create", async () => {
+        test("/signup", async () => {
             const response: any = await app
                 .handle(
-                    new Request(url + "/create", {
+                    new Request(url + "/signup", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
@@ -33,8 +33,10 @@ describe("Elysia", () => {
 
             logger.info(response);
 
-            expect(response.id).toBeTypeOf("string");
-            expect(response.name).toEqual(userData.name);
+            expect(response.access).toBeTypeOf("string");
+            expect(response.refresh).toBeTypeOf("string");
+
+            setExpectedAccessToken(response.access)
         });
     });
 
@@ -47,6 +49,7 @@ describe("Elysia", () => {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
+                            "Cookie": `accessToken=${getExpectedAccessToken()}`
                         },
                         body: JSON.stringify(institutionData),
                     })
@@ -73,6 +76,7 @@ describe("Elysia", () => {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
+                            "Cookie": `accessToken=${getExpectedAccessToken()}`
                         },
                         body: JSON.stringify({ ...campaignData, institutionId: expectedInstitutionId }),
                     })
