@@ -14,3 +14,6 @@ export const APP_PORT = envMustExist("APP_PORT");
 export const APP_URL = `http://${APP_HOST}:${APP_PORT}`;
 
 export const JWT_SECRET = envMustExist("JWT_SECRET")
+
+export const AWS_SECRET_ACCESS_KEY = envMustExist("AWS_SECRET_ACCESS_KEY")
+export const AWS_ACCESS_KEY_ID = envMustExist("AWS_ACCESS_KEY_ID")
