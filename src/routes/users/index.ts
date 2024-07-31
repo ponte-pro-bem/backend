@@ -27,7 +27,7 @@ const users = new Elysia({ prefix: "/users" })
             })
 
             set.status = 200;
-            return access;
+            return { access, refresh };
         },
         { body: "signupSchema" }
     )
@@ -50,7 +50,7 @@ const users = new Elysia({ prefix: "/users" })
             })
 
             set.status = 200;
-            return access;
+            return { access, refresh };
         },
         { body: "loginSchema" }
     );
