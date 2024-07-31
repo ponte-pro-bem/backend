@@ -34,9 +34,12 @@ export const userService = new Elysia({ name: "userService" })
             const user = await createUser({ ...data, hash, salt });
             store.users.push(user);
 
-            const token = jwt.sign({ userId: user.id });
+            //                     Seconds since epoch + 60 days
+            const expirationDate = (Date.now() / 1000) + 60 * 86400;
             
-            return { token };
+            const access = await jwt.sign({ userId: user.id })
+            const refresh = await jwt.sign({ userId: user.id, exp: expirationDate })
+            return { access, refresh };
         },
         login: async (data: LoginInput) => {
             const { name, password } = data;

@@ -10,7 +10,25 @@ const users = new Elysia({ prefix: "/users" })
     .get("/",  (read) => read )
     .post(
         "/signup",
-        async ({ signup, body }) => signup(body),
+        async ({ set, signup, body, cookie: { accessToken, refreshToken } }) => {
+            const { access, refresh } = await signup(body);
+            
+            accessToken.set({
+                value: access,
+                httpOnly: true,
+                path: "/"
+            });
+            
+            refreshToken.set({
+                value: refresh,
+                httpOnly: true,
+                path: "/",
+                maxAge: 60 * 86400
+            })
+
+            set.status = 200;
+            return access;
+        },
         { body: "signupSchema" }
     )
     .post(
