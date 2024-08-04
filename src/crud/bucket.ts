@@ -24,7 +24,7 @@ export const s3 = new S3Client({
 
 export async function uploadImageBuffer(
     key: string,
-    imageBuffer: string,
+    imageBuffer: Buffer,
     bucketName: string = AWS_IMAGE_BUCKET
 ): Promise<UploadDeviceImageBufferOutput> {
     const putObjCmd = new PutObjectCommand({

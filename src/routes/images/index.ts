@@ -15,7 +15,7 @@ const images = new Elysia({ prefix: "/images" })
                 key: body.key,
                 campaignId: body.campaignId ?? undefined,
                 institutionId: body.institutionId ?? undefined
-                }, await body.file.text());
+                }, Buffer.from(await body.file.arrayBuffer()));
             
             set.status = code;
             return {
