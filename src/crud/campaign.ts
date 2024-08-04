@@ -1,6 +1,6 @@
 import logger from "../../libs/logger";
 import { prisma } from "../../libs/prisma";
-import { CreateCampaignInput } from "../types";
+import { CreateCampaignInput, ErrorResponse } from "../types";
 import { CustomError } from "./errors";
 
 export const getCampaigns = async () => {
@@ -12,7 +12,24 @@ export const getCampaigns = async () => {
 };
 
 export const createCampaign = async (createCampaignInput: CreateCampaignInput) => {
+    logger.info(
+        "PrismaClient has been initialized and connected successfully."
+    );
     try {
+        const institution = await prisma.institution.findUnique({
+            where: {
+                id: createCampaignInput.institutionId
+            }
+        })
+
+        if (!institution) {
+            return {
+                error: true,
+                code: 404,
+                message: CustomError.INSTITUTION_NOT_FOUND
+            }
+        }
+
         const campaign = await prisma.campaign.create({
             data: {
                 institution: {
@@ -27,10 +44,10 @@ export const createCampaign = async (createCampaignInput: CreateCampaignInput) =
             }
         });
     
-        return campaign;
+        return { data: campaign, code: 201 };
     } catch (e) {
         logger.error(e)
-
+        
         throw CustomError.UNEXPECTED_ERROR
     }
 };

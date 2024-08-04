@@ -2,24 +2,6 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const usersToSeed = [
-  {
-    name: "andre.castelo",
-    password: "123456",
-    isAdmin: true,
-  },
-  {
-    name: "pedro.gaya",
-    password: "123456",
-    isAdmin: true,
-  },
-  {
-    name: "pro.bem",
-    password: "123456",
-    isAdmin: false,
-  },
-];
-
 const institutionsToSeed = [
     {
       name: "Instituto Educação para Todos",
@@ -184,9 +166,6 @@ const institutionsToSeed = [
 ];
   
 async function main() {
-  // Seed users
-  await prisma.user.createMany({ data: usersToSeed });
-
   // Seed institutions and campaigns
   institutionsToSeed.forEach(async (institution) => {
     await prisma.institution.create({

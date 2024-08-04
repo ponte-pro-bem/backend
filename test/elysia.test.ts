@@ -85,9 +85,9 @@ describe("Elysia", () => {
 
             logger.info(response);
 
-            expect(response.id).toBeTypeOf("string");
-            expect(response.name).toEqual(campaignData.name);
-            expect(response.institutionId).toEqual(expectedInstitutionId);
+            expect(response.data.id).toBeTypeOf("string");
+            expect(response.data.name).toEqual(campaignData.name);
+            expect(response.data.institutionId).toEqual(expectedInstitutionId);
         });
     });
 });
