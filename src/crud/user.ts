@@ -2,7 +2,11 @@ import { prisma } from "../../libs/prisma";
 import { CreateUserInput } from "../types";
 
 export const getUsers = async () => {
-  return await prisma.user.findMany();
+  return await prisma.user.findMany({select: {
+    name: true,
+    id: true,
+    createdAt: true
+  }});
 };
 
 

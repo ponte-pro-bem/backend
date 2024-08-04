@@ -1,7 +1,6 @@
 export type SignupInput = {
     name: string,
     password: string,
-    isAdmin: boolean
 }
 
 export type LoginInput = {
@@ -13,7 +12,6 @@ export type CreateUserInput = {
     name: string,
     hash: string,
     salt: string,
-    isAdmin: boolean
 }
 
 export type CreateInstitutionInput = {
@@ -32,3 +30,22 @@ export type CreateCampaignInput = {
     pixQRCodeRaw: string,
     institutionId: string
 }
+
+
+export interface ErrorResponse {
+    error?: boolean;
+    code: number;
+    message?: string;
+}
+
+// Define tipos para as respostas de sucesso das funções
+export interface SignupResponse extends ErrorResponse {
+    access?: string;
+    refresh?: string;
+};
+
+export interface LoginResponse extends ErrorResponse{
+    access?: string;
+    refresh?: string;
+};
+

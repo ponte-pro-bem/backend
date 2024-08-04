@@ -18,23 +18,23 @@ const authPlugin = (app: Elysia) =>
       })
     )
     .derive(async ({ jwt, cookie: { accessToken }, set }) => {
-      if (!accessToken.value) {
+      if (!accessToken.cookie.value) {
         set.status = 401;
         throw new Error(CustomError.BAD_TOKEN);
       }
-      const payload = await jwt.verify(accessToken.value);
+      const payload = await jwt.verify(accessToken.cookie.value as string);
       if (!payload) {
         set.status = 403;
         throw new Error(CustomError.BAD_TOKEN);
       }
-
+      
       const userId = payload.userId as string;
       const user = await prisma.user.findUnique({
         where: {
           id: userId,
         },
       });
-
+      
       if (!user) {
         set.status = 403;
         throw new Error(CustomError.BAD_TOKEN);

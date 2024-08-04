@@ -15,7 +15,7 @@ model User {
   name String @unique
   hash String
   salt String
-  isAdmin Boolean
+  isAdmin Boolean @default(false)
   createdAt DateTime  @default(now())
 }
 

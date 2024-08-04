@@ -11,8 +11,16 @@ const campaigns = new Elysia({ prefix: "/campaigns" })
     .use(auth)
     .post(
         "/create",
-        async ({ create, body }) => {
-            return await create(body);
+        async ({ create, body, error }) => {
+            const {error: isError,code, message, data} = await create(body);
+
+            if(isError) {
+                error(code,message);
+            }
+
+            return {
+                data
+            }
         },
         { body: "createCampaignSchema" }
     );
