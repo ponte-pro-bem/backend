@@ -4,6 +4,7 @@ import logger from "../libs/logger";
 import users from "./routes/users";
 import institutions from "./routes/institutions";
 import campaigns from "./routes/campaigns";
+import images from "./routes/images";
 
 import cors from "@elysiajs/cors";
 import jwt from "@elysiajs/jwt";
@@ -32,6 +33,7 @@ const app = new Elysia()
   .get("/", () => "OK")
   .use(users)
   .use(institutions)
-  .use(campaigns);
+  .use(campaigns)
+  .use(images);
 
 export default app;

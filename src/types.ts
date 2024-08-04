@@ -29,6 +29,11 @@ export type CreateCampaignInput = {
     institutionId: string
 }
 
+export type CreateImageInput = {
+    key: string,
+    campaignId?: string,
+    institutionId?: string
+}
 
 export interface ErrorResponse {
     error?: boolean;

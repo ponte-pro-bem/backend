@@ -17,3 +17,5 @@ export const JWT_SECRET = envMustExist("JWT_SECRET")
 
 export const AWS_SECRET_ACCESS_KEY = envMustExist("AWS_SECRET_ACCESS_KEY")
 export const AWS_ACCESS_KEY_ID = envMustExist("AWS_ACCESS_KEY_ID")
+
+export const AWS_IMAGE_BUCKET = envMustExist("AWS_IMAGE_BUCKET")
