@@ -12,9 +12,6 @@ export const getCampaigns = async () => {
 };
 
 export const createCampaign = async (createCampaignInput: CreateCampaignInput) => {
-    logger.info(
-        "PrismaClient has been initialized and connected successfully."
-    );
     try {
         const institution = await prisma.institution.findUnique({
             where: {

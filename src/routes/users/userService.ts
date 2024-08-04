@@ -9,6 +9,7 @@ import { CustomError } from "../../crud/errors";
 
 import { JWT_SECRET } from "../../../libs/constants";
 import { comparePassword, hashPassword } from "../../../libs/auth";
+import { MAX_PASSWORD_LENGTH } from "../../constants/usersConstants";
 
 export const userService = new Elysia({ name: "userService" })
     .use(store)
@@ -22,7 +23,7 @@ export const userService = new Elysia({ name: "userService" })
                 return { error: true, code: 409, message: CustomError.USER_NAME_ALREADY_EXISTS };
             }
             
-            if (password.length < 8) {
+            if (password.length < MAX_PASSWORD_LENGTH) {
                 return { error: true, code: 400, message: CustomError.BAD_PASSWORD };
             }
             
