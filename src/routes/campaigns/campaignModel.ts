@@ -5,7 +5,6 @@ export const campaignModel = new Elysia().model({
         name: t.String(),
         institutionId: t.String(),
         description: t.String(),
-        images: t.Array(t.String()),
         pixQRCodeRaw: t.String(),
         startDate: t.String(),
         endDate: t.String(),

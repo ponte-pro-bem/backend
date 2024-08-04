@@ -22,7 +22,7 @@ model User {
 model Institution {
   id String @id @default(uuid())
   name String
-  images String[]
+  images Image[]
   description String
   campaigns Campaign[]
   pixQRCodeRaw String
@@ -32,7 +32,7 @@ model Institution {
 model Campaign {
   id String @id @default(uuid())
   name String
-  images String[]
+  images Image[]
   description String
   pixQRCodeRaw String
   startDate String
@@ -40,4 +40,14 @@ model Campaign {
   institution Institution @relation(fields: [institutionId], references: [id])
   institutionId String
   createdAt DateTime  @default(now())
+}
+
+model Image {
+  id String @id @default(uuid())
+  key String
+  url String
+  institution Institution? @relation(fields: [institutionId], references: [id])
+  institutionId String?
+  campaign Campaign? @relation(fields: [campaignId], references: [id])
+  campaignId String?
 }

@@ -16,14 +16,12 @@ export type CreateUserInput = {
 
 export type CreateInstitutionInput = {
     name: string,
-    images: string[]
     description: string,
     pixQRCodeRaw: string
 }
 
 export type CreateCampaignInput = {
     name: string,
-    images: string[]
     description: string,
     startDate: string,
     endDate: string,

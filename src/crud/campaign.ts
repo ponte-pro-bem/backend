@@ -34,7 +34,6 @@ export const createCampaign = async (createCampaignInput: CreateCampaignInput) =
                 },
                 name: createCampaignInput.name,
                 description: createCampaignInput.description,
-                images: createCampaignInput.images,
                 pixQRCodeRaw: createCampaignInput.pixQRCodeRaw,
                 startDate: createCampaignInput.startDate,
                 endDate: createCampaignInput.endDate,

@@ -12,14 +12,12 @@ export const userData = {
 export const institutionData = {
   name: "Nome da instituicao",
   description: "Descrição da instituição",
-  images: [],
   pixQRCodeRaw: "00020126580014b....",
 };
 
 export const campaignData = {
   name: "Campanha",
   description: "Descrição da campanha.",
-  images: [],
   pixQRCodeRaw: "00020126580014b....",
   startDate: '12/12/2024',
   endDate: '12/12/2025',
