@@ -2,10 +2,8 @@ import { PrismaClient } from "@prisma/client";
 import logger from "./logger";
 
 async function initializePrisma() {
-    const prisma = new PrismaClient();
-
     try {
-        await prisma.$executeRaw`SELECT 1;`;
+        const prisma = new PrismaClient();
 
         logger.info(
             "PrismaClient has been initialized and connected successfully."
