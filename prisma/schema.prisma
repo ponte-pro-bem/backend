@@ -19,6 +19,16 @@ model User {
   createdAt DateTime  @default(now())
 }
 
+model Tag {
+  id            String       @id @default(uuid())
+  name          String
+  createdAt     DateTime     @default(now())
+  Institution   Institution? @relation(fields: [institutionId], references: [id])
+  institutionId String?
+  Campaign      Campaign?    @relation(fields: [campaignId], references: [id])
+  campaignId    String?
+}
+
 model Institution {
   id String @id @default(uuid())
   name String
