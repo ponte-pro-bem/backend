@@ -3,7 +3,7 @@ import logger from "../libs/logger";
 
 import users from "./routes/users";
 import institutions from "./routes/institutions";
-import campaigns from "./routes/campaigns";
+import tags from "./routes/tags";
 import images from "./routes/images";
 
 import cors from "@elysiajs/cors";
@@ -11,6 +11,7 @@ import jwt from "@elysiajs/jwt";
 import cookie from "@elysiajs/cookie";
 
 import { JWT_SECRET } from "../libs/constants";
+import campaigns from "./routes/campaigns";
 
 const app = new Elysia()
   .onRequest(({ request }) => {
@@ -34,6 +35,7 @@ const app = new Elysia()
   .use(users)
   .use(institutions)
   .use(campaigns)
-  .use(images);
+  .use(images)
+  .use(tags)
 
 export default app;

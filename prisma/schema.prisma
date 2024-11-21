@@ -11,53 +11,71 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
-  name String @unique
-  hash String
-  salt String
-  isAdmin Boolean @default(false)
-  createdAt DateTime  @default(now())
+  id        String   @id @default(uuid())
+  name      String   @unique
+  hash      String
+  salt      String
+  isAdmin   Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
 
 model Tag {
   id            String       @id @default(uuid())
   name          String
   createdAt     DateTime     @default(now())
-  Institution   Institution? @relation(fields: [institutionId], references: [id])
+  institution   Institution? @relation(fields: [institutionId], references: [id])
   institutionId String?
-  Campaign      Campaign?    @relation(fields: [campaignId], references: [id])
+  campaign      Campaign?    @relation(fields: [campaignId], references: [id])
+  campaignId    String?
+  iconLibrary   String?
+  icon          String?
+}
+
+model Donation {
+  id            String       @id @default(uuid())
+  name          String
+  value         String
+  cpf           String
+  createdAt     DateTime     @default(now())
+  institution   Institution? @relation(fields: [institutionId], references: [id])
+  institutionId String?
+  campaign      Campaign?    @relation(fields: [campaignId], references: [id])
   campaignId    String?
 }
 
 model Institution {
-  id String @id @default(uuid())
-  name String
-  images Image[]
-  description String
-  campaigns Campaign[]
+  id           String     @id @default(uuid())
+  name         String
+  images       Image[]
+  description  String
+  campaigns    Campaign[]
   pixQRCodeRaw String
-  createdAt DateTime  @default(now())
+  createdAt    DateTime   @default(now())
+  tags         Tag[]
+  donation     Donation[]
 }
 
 model Campaign {
-  id String @id @default(uuid())
-  name String
-  images Image[]
-  description String
-  pixQRCodeRaw String
-  startDate String
-  endDate String
-  institution Institution @relation(fields: [institutionId], references: [id])
+  id            String      @id @default(uuid())
+  name          String
+  images        Image[]
+  description   String
+  pixQRCodeRaw  String
+  startDate     String
+  endDate       String
+  institution   Institution @relation(fields: [institutionId], references: [id])
   institutionId String
-  createdAt DateTime  @default(now())
+  createdAt     DateTime    @default(now())
+  tags          Tag[]
+  donation      Donation[]
 }
 
 model Image {
-  id String @id @default(uuid())
-  key String
-  url String
-  institution Institution? @relation(fields: [institutionId], references: [id])
+  id            String       @id @default(uuid())
+  key           String
+  url           String
+  institution   Institution? @relation(fields: [institutionId], references: [id])
   institutionId String?
-  campaign Campaign? @relation(fields: [campaignId], references: [id])
-  campaignId String?
+  campaign      Campaign?    @relation(fields: [campaignId], references: [id])
+  campaignId    String?
 }

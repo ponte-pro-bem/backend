@@ -6,6 +6,5 @@ export const imageModel = new Elysia().model({
         file: t.File(),
         institutionId: t.Nullable(t.String()),
         campaignId: t.Nullable(t.String()),
-
     }),
 });

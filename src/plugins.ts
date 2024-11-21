@@ -27,14 +27,14 @@ const authPlugin = (app: Elysia) =>
         set.status = 403;
         throw new Error(CustomError.BAD_TOKEN);
       }
-      
+
       const userId = payload.userId as string;
       const user = await prisma.user.findUnique({
         where: {
           id: userId,
         },
       });
-      
+
       if (!user) {
         set.status = 403;
         throw new Error(CustomError.BAD_TOKEN);

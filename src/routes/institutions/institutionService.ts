@@ -1,15 +1,23 @@
 import Elysia from "elysia";
 import { store } from "../../../libs/store";
 import { CreateInstitutionInput } from "../../types";
-import { createInstitution, getInstitutions } from "../../crud/institution";
+import {
+  createInstitution,
+  getInstitutions,
+  deleteInstitution,
+  updateInstitution,
+} from "../../crud/institution";
+import logger from "../../../libs/logger";
 
 export const institutionService = new Elysia({ name: "institutionService" })
-    .use(store)
-    .derive({ as: "global" }, ({ store }) => ({
-        create: async (institutionInputData: CreateInstitutionInput) => {
-            const institution = await createInstitution(institutionInputData);
-            store.institutions.push(institution);
-            return institution;
-        },
-        read: () => getInstitutions(),
-    }));
+  .use(store)
+  .derive({ as: "global" }, ({ store }) => ({
+    create: async (institutionInputData: CreateInstitutionInput) => {
+      console.log(institutionInputData);
+      const institution = await createInstitution(institutionInputData);
+      store.institutions.push(institution);
+      return institution;
+    },
+    read: () => getInstitutions(),
+    delete: (institutionId: string) => deleteInstitution(institutionId),
+  }));

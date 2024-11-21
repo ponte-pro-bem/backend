@@ -12,6 +12,8 @@ DATABASE_URL="file:./dev.db"
 AWS_ACCESS_KEY_ID="key"
 AWS_SECRET_ACCESS_KEY="secretkey"
 AWS_REGION="sa-east-1"
+JWT_SECRET="secret"
+AWS_IMAGE_BUCKET="bucket"
 ```
 
 # Setup

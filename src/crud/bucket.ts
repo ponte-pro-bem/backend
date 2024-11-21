@@ -1,60 +1,65 @@
 import type { PutObjectCommandOutput } from "@aws-sdk/client-s3";
 import {
-    S3Client,
-    PutObjectCommand,
-    GetObjectCommand
-  } from "@aws-sdk/client-s3";
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+} from "@aws-sdk/client-s3";
 
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-import { AWS_ACCESS_KEY_ID, AWS_IMAGE_BUCKET, AWS_SECRET_ACCESS_KEY } from "../../libs/constants"
+import {
+  AWS_ACCESS_KEY_ID,
+  AWS_IMAGE_BUCKET,
+  AWS_SECRET_ACCESS_KEY,
+} from "../../libs/constants";
 
 export interface UploadDeviceImageBufferOutput {
-    cmd: PutObjectCommand & { input: { Bucket: string; Key: string } };
-    output: PutObjectCommandOutput;
+  cmd: PutObjectCommand & { input: { Bucket: string; Key: string } };
+  output: PutObjectCommandOutput;
 }
-
 
 export const s3 = new S3Client({
-    credentials: {
-        accessKeyId: AWS_ACCESS_KEY_ID,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY
-    }
-})
+  credentials: {
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+  },
+});
 
 export async function uploadImageBuffer(
-    key: string,
-    imageBuffer: Buffer,
-    bucketName: string = AWS_IMAGE_BUCKET
+  key: string,
+  imageBuffer: Buffer,
+  bucketName: string = AWS_IMAGE_BUCKET
 ): Promise<UploadDeviceImageBufferOutput> {
-    const putObjCmd = new PutObjectCommand({
-        Bucket: bucketName,
-        Key: key,
-        Body: imageBuffer,
-    });
+  const putObjCmd = new PutObjectCommand({
+    Bucket: bucketName,
+    Key: key,
+    Body: imageBuffer,
+  });
 
-    const putObjOut = await s3.send(putObjCmd);
+  const putObjOut = await s3.send(putObjCmd);
 
-    return {
-        cmd: putObjCmd as UploadDeviceImageBufferOutput["cmd"],
-        output: putObjOut,
-    };
+  return {
+    cmd: putObjCmd as UploadDeviceImageBufferOutput["cmd"],
+    output: putObjOut,
+  };
 }
-
+const cloudfrontUrl = "https://d2zew2g6qrczsi.cloudfront.net/";
 export async function getObjectUrl(
-    key: string,
-    bucketName: string = AWS_IMAGE_BUCKET
+  key: string
+  // bucketName: string = AWS_IMAGE_BUCKET
 ): Promise<string> {
-    const url = await getSignedUrl(
-        s3,
-        new GetObjectCommand({
-            Bucket: bucketName,
-            Key: key,
-        })
-    );
+  const url = cloudfrontUrl + key;
 
-    if (url === null || url === undefined) {
-        throw new Error("Failed to retrieve signed url.");
-    }
-    return url;
+  // const url = await getSignedUrl(
+  //       s3,
+  //       new GetObjectCommand({
+  //           Bucket: bucketName,
+  //           Key: key,
+  //       })
+  //   );
+
+  if (url === null || url === undefined) {
+    throw new Error("Failed to retrieve signed url.");
+  }
+  return url;
 }

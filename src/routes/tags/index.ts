@@ -1,14 +1,13 @@
 import { Elysia } from "elysia";
 
-import { campaignService } from "./campaignService";
-import { campaignModel } from "./campaignModel";
-import { auth } from "../../plugins";
+import { tagModel } from "./tagModel";
+import { tagService } from "./tagService";
+import logger from "../../../libs/logger";
 
-const campaigns = new Elysia({ prefix: "/campaigns" })
-  .use(campaignModel)
-  .use(campaignService)
+const tags = new Elysia({ prefix: "/tags" })
+  .use(tagModel)
+  .use(tagService)
   .get("/", ({ read }) => read)
-  .use(auth)
   .post(
     "/create",
     async ({ create, body, error }) => {
@@ -22,7 +21,7 @@ const campaigns = new Elysia({ prefix: "/campaigns" })
         data,
       };
     },
-    { body: "createCampaignSchema" }
+    { body: "createTagSchema" }
   );
 
-export default campaigns;
+export default tags;

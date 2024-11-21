@@ -25,11 +25,11 @@ export const createImage = async (createImageInput: CreateImageInput) => {
                 } : undefined
             }
         });
-    
+
         return { data: image, code: 201 };
     } catch (e) {
         logger.error(e)
-        
+
         throw CustomError.UNEXPECTED_ERROR
     }
 };
