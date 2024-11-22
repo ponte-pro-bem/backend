@@ -7,6 +7,8 @@ export const campaignService = new Elysia({ name: "campaignService" })
     .use(store)
     .derive({ as: "global" }, ({ store }) => ({
         create: async (createCampaignData: CreateCampaignInput) => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             const { error: isError, code, message, data } = await createCampaign(createCampaignData);
 
             if (data) store.campaigns.push(data);

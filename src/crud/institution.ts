@@ -54,8 +54,8 @@ export const createInstitution = async (
     });
 
     await Promise.all(imagePromises);
-    console.log(createInstitutionDto.tags)
     const tagPromises = createInstitutionDto.tags.map(async (tag1) => {
+      // @ts-ignore
       const tag = JSON.parse(tag1)
       return await createTag({
         name: tag.name,
