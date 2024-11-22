@@ -36,7 +36,6 @@ export const createInstitution = async (
 ) => {
   try {
 
-    console.log(createInstitutionDto.tags)
     const institution = await prisma.institution.create({
       data: {
         name: createInstitutionDto.name,
@@ -66,8 +65,6 @@ export const createInstitution = async (
       });
     });
     await Promise.all(tagPromises);
-
-
 
     // 3. Buscamos a institution com as imagens incluídas
     const institutionWithImages = await prisma.institution.findUnique({
@@ -104,12 +101,12 @@ export const deleteInstitution = async (id: string) => {
   });
 };
 
-export const updateInstitution = async (
-  id: string,
-  data: Partial<CreateInstitutionInput>
-) => {
-  return await prisma.institution.update({
-    where: { id },
-    data,
-  });
-};
+// export const updateInstitution = async (
+//   id: string,
+//   data: Partial<CreateInstitutionInput>
+// ) => {
+//   return await prisma.institution.update({
+//     where: { id },
+//     data,
+//   });
+// };

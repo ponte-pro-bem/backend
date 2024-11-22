@@ -56,18 +56,18 @@ model Institution {
 }
 
 model Campaign {
-  id            String      @id @default(uuid())
+  id            String       @id @default(uuid())
   name          String
   images        Image[]
   description   String
   pixQRCodeRaw  String
-  startDate     String
-  endDate       String
-  institution   Institution @relation(fields: [institutionId], references: [id])
-  institutionId String
-  createdAt     DateTime    @default(now())
+  // startDate     String
+  // endDate       String
+  createdAt     DateTime     @default(now())
   tags          Tag[]
   donation      Donation[]
+  institution   Institution? @relation(fields: [institutionId], references: [id])
+  institutionId String?
 }
 
 model Image {

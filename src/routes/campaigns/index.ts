@@ -23,6 +23,13 @@ const campaigns = new Elysia({ prefix: "/campaigns" })
       };
     },
     { body: "createCampaignSchema" }
+  ).delete(
+    ":id",
+    async ({ params, delete: deleteCampaign }) => {
+      return await deleteCampaign(params.id);
+    },
+    { params: "deleteCampaignSchema" }
   );
+
 
 export default campaigns;

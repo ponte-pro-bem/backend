@@ -13,19 +13,19 @@ export const getTags = async () => {
 
 export const createTag = async (createTagInput: CreateTagInput) => {
   try {
-    const tag = await prisma.tag.findFirst({
-      where: {
-        name: createTagInput.name,
-      },
-    });
+    // const tag = await prisma.tag.findFirst({
+    //   where: {
+    //     name: createTagInput.name,
+    //   },
+    // });
 
-    if (tag) {
-      return {
-        error: true,
-        code: 409,
-        message: CustomError.TAG_ALREADY_EXISTS,
-      };
-    }
+    // if (tag) {
+    //   return {
+    //     error: true,
+    //     code: 409,
+    //     message: CustomError.TAG_ALREADY_EXISTS,
+    //   };
+    // }
 
     if (createTagInput.institutionId && !createTagInput.campaignId) {
       const institution = await prisma.institution.findUnique({
@@ -42,7 +42,6 @@ export const createTag = async (createTagInput: CreateTagInput) => {
           message: CustomError.INSTITUTION_NOT_FOUND,
         };
       }
-      console.log('123123123', createTagInput);
 
       const createdTag = await prisma.tag.create({
         data: {
