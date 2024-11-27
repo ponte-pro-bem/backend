@@ -38,8 +38,8 @@ export interface CreateCampaignInput {
   pixQRCodeRaw: string;
   tags: Tag[]
   files: any[];
-  startDate: string
-  endDate: string
+  // startDate: string
+  // endDate: string
 }
 
 
@@ -70,8 +70,8 @@ export const createCampaign = async (
         name: createCampaignInput.name,
         description: createCampaignInput.description,
         pixQRCodeRaw: createCampaignInput.pixQRCodeRaw,
-        startDate: createCampaignInput.startDate,
-        endDate: createCampaignInput.endDate,
+        // startDate: createCampaignInput.startDate,
+        // endDate: createCampaignInput.endDate,
       },
     });
 
