@@ -9,10 +9,12 @@ const institutions = new Elysia({ prefix: "/institutions" })
   .use(institutionModel)
   .use(institutionService)
   .get("/", ({ read }) => read)
-  .use(auth)
+  // .use(auth)
   .post(
     "/create",
     async ({ create, body }) => {
+      console.log("oi", body);
+      
       console.log(body);
       logger.debug(body);
 

@@ -8,7 +8,7 @@ const campaigns = new Elysia({ prefix: "/campaigns" })
   .use(campaignModel)
   .use(campaignService)
   .get("/", ({ read }) => read)
-  .use(auth)
+  // .use(auth)
   .post(
     "/create",
     async ({ create, body, error }) => {
