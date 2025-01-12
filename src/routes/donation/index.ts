@@ -9,7 +9,6 @@ const donations = new Elysia({ prefix: "/donations" })
   .use(donationModel)
   .use(donationService)
   .get("/", ({ read }) => read)
-  .use(auth)
   .post(
     "/create",
     async ({ create, body }) => {

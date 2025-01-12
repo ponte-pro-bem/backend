@@ -12,6 +12,7 @@ import cookie from "@elysiajs/cookie";
 
 import { JWT_SECRET } from "../libs/constants";
 import campaigns from "./routes/campaigns";
+import donations from "./routes/donation";
 
 const app = new Elysia()
   .onRequest(({ request }) => {
@@ -37,5 +38,6 @@ const app = new Elysia()
   .use(campaigns)
   .use(images)
   .use(tags)
+  .use(donations)
 
 export default app;
