@@ -1,7 +1,7 @@
 import Elysia from "elysia";
 import { store } from "../../../libs/store";
 import { CreateDonateInput } from "../../types";
-import { createDonation, getDonations } from "../../crud/donation";
+import { createDonation, getDonations, deleteDonation } from "../../crud/donation";
 
 export const donationService = new Elysia({ name: "donationService" })
   .use(store)
@@ -13,5 +13,12 @@ export const donationService = new Elysia({ name: "donationService" })
       return donation;
     },
     read: () => getDonations(),
-    // delete: (donationId: string) => deletedonation(donationId),
+    delete: async (id: string) => {
+      try {
+        const result = await deleteDonation(id);
+        return result;
+      } catch (error) {
+        return { error: true, message: error };
+      }
+    }
   }));

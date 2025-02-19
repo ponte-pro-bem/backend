@@ -22,13 +22,11 @@ const users = new Elysia({ prefix: "/users" })
                 
                 accessToken.set({
                     value: access,
-                    httpOnly: true,
                     path: "/"
                 });
                 
                 refreshToken.set({
                     value: refresh,
-                    httpOnly: true,
                     path: "/",
                     maxAge: 60 * 86400
                 })
@@ -53,13 +51,11 @@ const users = new Elysia({ prefix: "/users" })
             
             accessToken.set({
                 value: access,
-                httpOnly: true,
                 path: "/"
             });
             
             refreshToken.set({
                 value: refresh,
-                httpOnly: true,
                 path: "/",
                 maxAge: 60 * 86400
             })

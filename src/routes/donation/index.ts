@@ -19,12 +19,12 @@ const donations = new Elysia({ prefix: "/donations" })
     },
     { body: "createDonationSchema" }
   )
-// .delete(
-//   ":id",
-//   async ({ params, delete: deleteInstitution }) => {
-//     return await deleteInstitution(params.id);
-//   },
-//   { params: "deleteInstitutionSchema" }
-// );
+.delete(
+  ":id",
+  async ({ params, delete: deleteDonation }) => {
+    return await deleteDonation(params.id);
+  },
+  { params: "deleteInstitutionSchema" }
+);
 
 export default donations;

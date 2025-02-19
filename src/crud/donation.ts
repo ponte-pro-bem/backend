@@ -15,12 +15,19 @@ export const getDonations = async () => {
     include: {
       institution: { select: { id: true, name: true } },
       campaign: { select: { id: true, name: true } },
+      donor: { select: { id: true, name: true, cpf: true } }
     },
     orderBy: {
       createdAt: "desc",
     },
   });
 };
+
+const validateCPF = (cpf: string): boolean => {
+  const normalizedCPF = cpf.replace(/\D/g, "");
+  return normalizedCPF.length === 11;
+};
+
 
 export const createDonation = async (createDonateInput: CreateDonateInput) => {
   try {
@@ -39,10 +46,37 @@ export const createDonation = async (createDonateInput: CreateDonateInput) => {
         };
       }
 
+    const normalizedCPF = createDonateInput.cpf.replace(/\D/g, "");
+      
+    // Busca ou cria o doador
+    const donor = await prisma.donor.upsert({
+      where: { cpf: normalizedCPF },
+      update: {},
+      create: {
+        name: createDonateInput.name,
+        cpf: normalizedCPF,
+      },
+    });
+
+    // Cria a doação vinculada ao doador
+    // const donationData = {
+    //   value: createDonateInput.value,
+    //   donorId: donor.id,
+    //   ...(createDonateInput.institutionId && {
+    //     institutionId: { connect: { id: createDonateInput.institutionId } },
+    //   }),
+    //   ...(createDonateInput.campaignId && {
+    //     campaign: { connect: { id: createDonateInput.campaignId } },
+    //   }),
+    // };
+
       const createdDonation = await prisma.donation.create({
         data: {
-          name: createDonateInput.name,
-          cpf: createDonateInput.cpf,
+          donor: {
+            connect: { id: donor.id }
+          },
+          // name: donor,
+          // cpf: createDonateInput.cpf,
           value: createDonateInput.value,
           institution: {
             connect: { id: createDonateInput.institutionId },
@@ -52,6 +86,9 @@ export const createDonation = async (createDonateInput: CreateDonateInput) => {
 
       return { data: createdDonation, code: 201 };
     }
+
+
+    
 
     // Verificar se a campanha existe (se informado)
     if (!createDonateInput.institutionId && createDonateInput.campaignId) {
@@ -68,10 +105,25 @@ export const createDonation = async (createDonateInput: CreateDonateInput) => {
         };
       }
 
+      const normalizedCPF = createDonateInput.cpf.replace(/\D/g, "");
+      
+      // Busca ou cria o doador
+      const donor = await prisma.donor.upsert({
+        where: { cpf: normalizedCPF },
+        update: {},
+        create: {
+          name: createDonateInput.name,
+          cpf: normalizedCPF,
+        },
+      });
+
       const createdDonation = await prisma.donation.create({
         data: {
-          name: createDonateInput.name,
-          cpf: createDonateInput.cpf,
+          donor: {
+            connect: { id: donor.id }
+          },
+          // name: createDonateInput.name,
+          // cpf: createDonateInput.cpf,
           value: createDonateInput.value,
           campaign: {
             connect: { id: createDonateInput.campaignId },
@@ -84,11 +136,32 @@ export const createDonation = async (createDonateInput: CreateDonateInput) => {
 
     // Caso não tenha nem instituição nem campanha associada
     if (!createDonateInput.institutionId && !createDonateInput.campaignId) {
+
+      
+      const normalizedCPF = createDonateInput.cpf.replace(/\D/g, "");
+      
+      // Busca ou cria o doador
+      const donor = await prisma.donor.upsert({
+        where: { cpf: normalizedCPF },
+        update: {},
+        create: {
+          name: createDonateInput.name,
+          cpf: normalizedCPF,
+        },
+      });
+
+
+
+
       const createdDonation = await prisma.donation.create({
         data: {
-          name: createDonateInput.name,
-          cpf: createDonateInput.cpf,
+          // name: createDonateInput.name,
+          // cpf: createDonateInput.cpf,
+          // value: createDonateInput.value,
           value: createDonateInput.value,
+          donor: {
+            connect: { id: donor.id }
+          }
         },
       });
 
@@ -100,6 +173,20 @@ export const createDonation = async (createDonateInput: CreateDonateInput) => {
       code: 500,
       message: CustomError.UNEXPECTED_ERROR,
     };
+  } catch (e) {
+    console.error(e);
+    throw CustomError.UNEXPECTED_ERROR;
+  }
+};
+
+// Adicionar função de delete
+export const deleteDonation = async (id: string) => {
+  try {
+    const donation = await prisma.donation.delete({
+      where: { id },
+    });
+
+    return { data: donation, code: 200 };
   } catch (e) {
     console.error(e);
     throw CustomError.UNEXPECTED_ERROR;

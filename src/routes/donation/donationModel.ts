@@ -8,7 +8,7 @@ export const donationModel = new Elysia().model({
         campaignId: t.Optional(t.String()),
         institutionId: t.Optional(t.String()),
     }),
-    deleteCampaignSchema: t.Object({
+    deleteInstitutionSchema: t.Object({
         id: t.String()
     })
 });
