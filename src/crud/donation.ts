@@ -11,7 +11,15 @@ import { createTag } from "./tag";
 import { CustomError } from "./errors";
 
 export const getDonations = async () => {
-  return await prisma.donation.findMany();
+  return await prisma.donation.findMany({
+    include: {
+      institution: { select: { id: true, name: true } },
+      campaign: { select: { id: true, name: true } },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 };
 
 export const createDonation = async (createDonateInput: CreateDonateInput) => {
