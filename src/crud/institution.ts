@@ -28,23 +28,26 @@ export interface CreateInstitutionDto {
   name: string;
   description: string;
   pixQRCodeRaw: string;
-  tags: Tag[]
+  tags: string[]
   files: any[];
 }
-export const createInstitution = async (
-  createInstitutionDto: CreateInstitutionDto,
-) => {
+export const createInstitution = async (createInstitutionDto: CreateInstitutionDto) => {
   try {
-
     const institution = await prisma.institution.create({
       data: {
         name: createInstitutionDto.name,
         description: createInstitutionDto.description,
         pixQRCodeRaw: createInstitutionDto.pixQRCodeRaw,
+        tags: {
+          connect: createInstitutionDto.tags.map(tag => ({ id: tag }))
+        }
       },
+      include: {
+        tags: true
+      }
     });
 
-    // 2. Para cada arquivo, salvamos a imagem e criamos a referência
+    // Upload de imagens
     const imagePromises = createInstitutionDto.files.map(async (file) => {
       uploadImageBuffer(file.name, Buffer.from(await file.arrayBuffer()))
       return await createImage({
@@ -54,40 +57,8 @@ export const createInstitution = async (
     });
 
     await Promise.all(imagePromises);
-    const tagPromises = createInstitutionDto.tags.map(async (tag1) => {
-      // @ts-ignore
-      const tag = JSON.parse(tag1)
-      return await createTag({
-        name: tag.name,
-        icon: tag.icon || undefined,
-        iconLibrary: tag.iconLibrary || undefined,
-        institutionId: institution.id
-      });
-    });
-    await Promise.all(tagPromises);
 
-    // 3. Buscamos a institution com as imagens incluídas
-    const institutionWithImages = await prisma.institution.findUnique({
-      where: { id: institution.id },
-      include: {
-        images: {
-          select: {
-            id: true,
-            key: true,
-            url: true,
-          },
-
-        },
-        tags: {
-          select: {
-            id: true,
-            name: true
-          }
-        }
-      },
-    });
-
-    return institutionWithImages;
+    return { data: institution, code: 201 };
   } catch (error) {
     throw error;
   }

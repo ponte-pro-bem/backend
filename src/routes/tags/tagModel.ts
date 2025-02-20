@@ -8,4 +8,14 @@ export const tagModel = new Elysia().model({
     campaignId: t.Optional(t.String()),
     institutionId: t.Optional(t.String()),
   }),
+  
+  updateTagSchema: t.Object({
+    name: t.String(),
+    icon: t.Optional(t.String()),
+    iconLibrary: t.Optional(t.String()),
+  }),
+
+  deleteTagSchema: t.Object({
+    id: t.String(),
+  }),
 });

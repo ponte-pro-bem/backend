@@ -5,7 +5,6 @@ import {
   createInstitution,
   getInstitutions,
   deleteInstitution,
-  updateInstitution,
 } from "../../crud/institution";
 import logger from "../../../libs/logger";
 
@@ -13,7 +12,6 @@ export const institutionService = new Elysia({ name: "institutionService" })
   .use(store)
   .derive({ as: "global" }, ({ store }) => ({
     create: async (institutionInputData: CreateInstitutionInput) => {
-      console.log(institutionInputData);
       const institution = await createInstitution(institutionInputData);
       store.institutions.push(institution);
       return institution;

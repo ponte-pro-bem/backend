@@ -11,6 +11,12 @@ export const getTags = async () => {
   });
 };
 
+export const getTagById = async (id: string) => {
+  return await prisma.tag.findUnique({
+    where: { id },
+  });
+};
+
 export const createTag = async (createTagInput: CreateTagInput) => {
   try {
     // const tag = await prisma.tag.findFirst({
@@ -27,66 +33,6 @@ export const createTag = async (createTagInput: CreateTagInput) => {
     //   };
     // }
 
-    if (createTagInput.institutionId && !createTagInput.campaignId) {
-      const institution = await prisma.institution.findUnique({
-        where: {
-          id: createTagInput.institutionId,
-        },
-      });
-
-      if (!institution) {
-        return {
-          data: null,
-          error: true,
-          code: 404,
-          message: CustomError.INSTITUTION_NOT_FOUND,
-        };
-      }
-
-      const createdTag = await prisma.tag.create({
-        data: {
-          name: createTagInput.name,
-          institution: {
-            connect: { id: createTagInput?.institutionId },
-          },
-          icon: createTagInput.icon,
-          iconLibrary: createTagInput.iconLibrary,
-        },
-      });
-
-      return { data: createdTag, code: 201 };
-    }
-
-    if (!createTagInput.institutionId && createTagInput.campaignId) {
-      const campaign = await prisma.campaign.findUnique({
-        where: {
-          id: createTagInput.campaignId,
-        },
-      });
-      if (!campaign) {
-        return {
-          data: null,
-          error: true,
-          code: 404,
-          message: CustomError.CAMPAIGN_NOT_FOUND,
-        };
-      }
-
-      const createdTag = await prisma.tag.create({
-        data: {
-          name: createTagInput.name,
-          campaign: {
-            connect: { id: createTagInput?.campaignId },
-          },
-          icon: createTagInput.icon,
-          iconLibrary: createTagInput.iconLibrary,
-        },
-      });
-
-      return { data: createdTag, code: 201 };
-    }
-
-    if (!createTagInput.institutionId && !createTagInput.campaignId) {
       const createdTag = await prisma.tag.create({
         data: {
           name: createTagInput.name,
@@ -96,17 +42,45 @@ export const createTag = async (createTagInput: CreateTagInput) => {
       });
 
       return { data: createdTag, code: 201 };
-    }
 
+  
+
+  } catch (e) {
+    logger.error(e);
     return {
       error: true,
       code: 500,
       message: CustomError.UNEXPECTED_ERROR,
     };
+  }
+};
 
+export const deleteTag = async (id: string) => {
+  try {
+    const tag = await prisma.tag.delete({
+      where: { id },
+    });
+    return { data: tag, code: 200 };
   } catch (e) {
     logger.error(e);
-
     throw CustomError.UNEXPECTED_ERROR;
   }
 };
+
+export const updateTag = async (id: string, data: CreateTagInput) => {
+  try {
+    const tag = await prisma.tag.update({
+      where: { id },
+      data: {
+        name: data.name,
+        icon: data.icon,
+        iconLibrary: data.iconLibrary,
+      },
+    });
+    return { data: tag, code: 200 };
+  } catch (e) {
+    logger.error(e);
+    throw CustomError.UNEXPECTED_ERROR;
+  }
+};
+

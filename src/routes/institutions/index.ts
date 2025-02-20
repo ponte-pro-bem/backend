@@ -13,10 +13,7 @@ const institutions = new Elysia({ prefix: "/institutions" })
   .post(
     "/create",
     async ({ create, body }) => {
-      console.log("oi", body);
       
-      console.log(body);
-      logger.debug(body);
 
       return await create(body);
     },

@@ -7,13 +7,7 @@ export const campaignModel = new Elysia().model({
         description: t.String(),
         pixQRCodeRaw: t.String(),
         files: t.Files(),
-        tags: t.Array(t.String({
-            name: t.String(),
-            icon: t.String(),
-            iconLibrary: t.String()
-        }))
-        // startDate: t.String(),
-        // endDate: t.String(),
+        tags: t.Array(t.String())
     }),
     deleteCampaignSchema: t.Object({
         id: t.String()

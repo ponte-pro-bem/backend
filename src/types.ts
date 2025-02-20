@@ -18,8 +18,6 @@ export type CreateUserInput = {
 
 export type CreateTagInput = {
   name: string;
-  campaignId?: string;
-  institutionId?: string;
   icon?: string;
   iconLibrary?: string;
 };

@@ -36,7 +36,7 @@ export interface CreateCampaignInput {
   name: string;
   description: string;
   pixQRCodeRaw: string;
-  tags: Tag[]
+  tags: string[]
   files: any[];
   // startDate: string
   // endDate: string
@@ -47,36 +47,21 @@ export const createCampaign = async (
   createCampaignInput: CreateCampaignInput
 ) => {
   try {
-    // const institution = await prisma.institution.findUnique({
-    //   where: {
-    //     id: createCampaignInput.institutionId,
-    //   },
-    // });
-
-    // if (!institution) {
-    //   return {
-    //     error: true,
-    //     code: 404,
-    //     message: CustomError.INSTITUTION_NOT_FOUND,
-    //   };
-    // }
-
     const campaign = await prisma.campaign.create({
       data: {
-        // institution: {
-        //   connect: createCampaignInput.institutionId ? { id: createCampaignInput.institutionId } : undefined
-        // },
-
         name: createCampaignInput.name,
         description: createCampaignInput.description,
         pixQRCodeRaw: createCampaignInput.pixQRCodeRaw,
-        // startDate: createCampaignInput.startDate,
-        // endDate: createCampaignInput.endDate,
+        tags: {
+          connect: createCampaignInput.tags.map(tag => ({ id: tag }))
+        }
       },
+      include: {
+        tags: true
+      }
     });
 
-
-    // 2. Para cada arquivo, salvamos a imagem e criamos a referência
+    // Upload de imagens
     const imagePromises = createCampaignInput.files.map(async (file) => {
       uploadImageBuffer(file.name, Buffer.from(await file.arrayBuffer()))
       return await createImage({
@@ -86,46 +71,10 @@ export const createCampaign = async (
     });
 
     await Promise.all(imagePromises);
-    console.log(createCampaignInput.tags)
-    const tagPromises = createCampaignInput.tags.map(async (tag1) => {
-      const tag = JSON.parse(tag1)
-      return await createTag({
-        name: tag.name,
-        icon: tag.icon || undefined,
-        iconLibrary: tag.iconLibrary || undefined,
-        campaignId: campaign.id
-      });
-    });
-    await Promise.all(tagPromises);
 
-    // 3. Buscamos a institution com as imagens incluídas
-    const institutionWithImages = await prisma.campaign.findUnique({
-      where: { id: campaign.id },
-      include: {
-        images: {
-          select: {
-            id: true,
-            key: true,
-            url: true,
-          },
-        },
-        tags: {
-          select: {
-            id: true,
-            name: true
-          }
-        }
-      },
-    });
-
-    console.log('>>>', institutionWithImages);
-
-
-    return { data: institutionWithImages, code: 201 };
-  } catch (e) {
-    logger.error(e);
-
-    throw CustomError.UNEXPECTED_ERROR;
+    return { data: campaign, code: 201 };
+  } catch (error) {
+    throw error;
   }
 };
 export const deleteCampaign = async (id: string) => {
