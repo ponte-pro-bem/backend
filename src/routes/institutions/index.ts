@@ -5,7 +5,9 @@ import { institutionModel } from "./institutionModel";
 import { auth } from "../../plugins";
 import logger from "../../../libs/logger";
 
-const institutions = new Elysia({ prefix: "/institutions" })
+const institutions = new Elysia({ prefix: "/institutions", serve: {
+  maxRequestBodySize: 1024 * 1024 * 50, // 50MB
+} })
   .use(institutionModel)
   .use(institutionService)
   .get("/", ({ read }) => read)
